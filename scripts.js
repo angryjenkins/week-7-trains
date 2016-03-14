@@ -1,14 +1,19 @@
 $(document).ready(function(){
 	var train, dest, firstTrain, freq;
 
-	url = "https://mattmartintrains.firebaseio.com/";
-	var dataRef =  new Firebase(url);
+	var db_url = "https://mattmartintrains.firebaseio.com/";
+	var dataRef =  new Firebase(db_url);
 
-	$('#go').click(function(){
+	$('#go').on('click', function(){
 		train = $('#trainName').val().trim();
 		dest = $('#destination').val().trim();
 		firstTrain = $('#firstTrain').val().trim();
 		freq = $('#frequency').val().trim();
+
+		console.log(train);
+		console.log(dest);
+		console.log(firstTrain);
+		console.log(freq);
 
 		var minutes = moment().diff(moment(firstTrain), 'minutes');
 
