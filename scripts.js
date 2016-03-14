@@ -1,8 +1,4 @@
 $(document).ready(function(){
-
-	
-
-
 	var train, dest, firstTrain, freq;
 
 	url = "https://mattmartintrains.firebaseio.com/";
@@ -32,15 +28,12 @@ $(document).ready(function(){
 		console.log(childSnapshot.val().firstTrain);
 		console.log(childSnapshot.val().frequency);
 		console.log(childSnapshot.val().dateAdded)
-		
-		// full list of items to the table
-	   				
-	
 
-		$('#results').append('<tr><td>' + childSnapshot.val().ntrainame + '</td><td>' + childSnapshot.val().destination + '</td><td>' + childSnapshot.val().firstTrain + '</td><td>' + childSnapshot.val().frequency + '</td><td>' + x + '</td><td>' + x + '</td>/tr>')
+		// full list of items to the table
+
+	$('#results').append('<tr><td>' + childSnapshot.val().train + '</td><td>' + childSnapshot.val().destination + '</td><td>' + childSnapshot.val().firstTrain + '</td><td>' + childSnapshot.val().frequency + '</td><td>' + x + '</td><td>' + x + '</td>/tr>')
 		// Handle the errors
 	}, function(errorObject){
 		console.log("Errors handled: " + errorObject.code)
 	});
-
 });
