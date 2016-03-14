@@ -10,11 +10,17 @@ $(document).ready(function(){
 		firstTrain = $('#firstTrain').val().trim();
 		freq = $('#frequency').val().trim();
 
+		var minutes = moment().diff(moment(firstTrain), 'minutes');
+
+		var minRemainder = mintues%freq;
+
 		dataRef.push({
 			train: train,
 			destination: dest,
 			firstTrain: firstTrain,
 			frequency: freq,
+			minutesAway: freq - minRemainder,
+			nextArrival: moment().add(minutesAway, "minutes"),
 			dateAdded: Firebase.ServerValue.TIMESTAMP
 		});
 		// Don't refresh the page!
@@ -31,7 +37,7 @@ $(document).ready(function(){
 
 		// full list of items to the table
 
-	$('#results').append('<tr><td>' + childSnapshot.val().train + '</td><td>' + childSnapshot.val().destination + '</td><td>' + childSnapshot.val().firstTrain + '</td><td>' + childSnapshot.val().frequency + '</td><td>' + x + '</td><td>' + x + '</td>/tr>')
+	$('#results').append('<tr><td>' + childSnapshot.val().train + '</td><td>' + childSnapshot.val().destination + '</td><td>' + childSnapshot.val().firstTrain + '</td><td>' + childSnapshot.val().frequency + '</td><td>' + x + '</td><td>' + childSnapshot.val().minutesAway  + '</td>/tr>')
 		// Handle the errors
 	}, function(errorObject){
 		console.log("Errors handled: " + errorObject.code)
