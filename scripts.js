@@ -30,20 +30,20 @@ function pushData(){
 	var minutesTill = freq - rem;
 	console.log(minutesTill);
 
-	var nextTrain = moment().add(minutesTill, "minutes");
+	var nextTrain = moment().add(minutesTill, "minutes").format("HH:mm");
 	console.log(moment(nextTrain).format("HH:mm"));
 
-	localStorage.clear();
-	localStorage.setItem("minutesTill", minutesTill);
-	localStorage.setItem("nextTrain", nextTrain);
-
-
+	// localStorage.clear();
+	// localStorage.setItem("minutesTill", minutesTill);
+	// localStorage.setItem("nextTrain", nextTrain);
 
 	trainTracker.push({
 	  name: name,
 	  destination: dest,
 	  first: firstTime,
 	  frequency: freq,
+	  minutesTill: minutesTill,
+	  nextTrain: nextTrain
 	  // next: nextTrain,
 	  // minutesTo: minutesTill
 	})
@@ -57,7 +57,7 @@ function pushData(){
 trainTracker.on("child_added", function(snap){
 
 
-    $("#results").append("<tr><td>" + snap.val().name + "</td><td>" + snap.val().destination + "</td><td>" + snap.val().frequency + "</td><td>" + localStorage.getItem("nextTrain") + "</td><td>" + localStorage.getItem("minutesTill") + "</td></tr>");
+    $("#results").append("<tr><td>" + snap.val().name + "</td><td>" + snap.val().destination + "</td><td>" + snap.val().frequency + "</td><td>" + snap.val().nextTrain + "</td><td>" + snap.val().minutesTill + "</td></tr>");
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
 });
