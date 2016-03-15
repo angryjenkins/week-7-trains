@@ -1,50 +1,54 @@
-$(document).ready(function(){
-	var train, dest, firstTrain, freq;
+var trainTracker = new Firebase("https://mattmartintrains.firebaseio.com/");
 
-	var db_url = "https://mattmartintrains.firebaseio.com/";
-	var dataRef =  new Firebase(db_url);
 
-	$('#go').on('click', function(){
-		train = $('#trainName').val().trim();
-		dest = $('#destination').val().trim();
-		firstTrain = $('#firstTrain').val().trim();
-		freq = $('#frequency').val().trim();
+$("#go").click(function(){
+  pushData();
+});
+$(window).keyup(function(e) { 
+  if(e.keyCode == 13){
+    pushData();
+  }
+});
 
-		console.log(train);
-		console.log(dest);
-		console.log(firstTrain);
-		console.log(freq);
+function pushData(){
+  var name = $("#name").val().trim();
+  var dest = $("#destination").val().trim();
+  var firstArrival = new Date($("#first").val().trim());
+  var freq = $("#frequency").val().trim();
+  
+  if(name != "" && dest != "" && firstArrival != "" && freq != ""){
+    var diffTime = moment().diff(moment.unix(firstArrival), "minutes");
+	console.log(diffTime);
 
-		var minutes = moment().diff(moment(firstTrain), 'minutes');
+	var tRemainder = diffTime % freq;
+	console.log(tRemainder);
+    
+    var minutesTill = freq - tRemainder;
+	console.log(minutesTill);
 
-		var minRemainder = mintues%freq;
+	var nextTrain = moment().add(minutesTill, "minutes")
+	console.log(moment(nextTrain).format("HH:mm"));
 
-		dataRef.push({
-			train: train,
-			destination: dest,
-			firstTrain: firstTrain,
-			frequency: freq,
-			minutesAway: freq - minRemainder,
-			nextArrival: moment().add(minutesAway, "minutes"),
-			dateAdded: Firebase.ServerValue.TIMESTAMP
-		});
-		// Don't refresh the page!
-		return false;
-	});
+    $("#name").val("");
+    $("#destination").val("");
+    $("#first").val("");
+    $("#frequency").val("");
 
-	dataRef.on("child_added", function(childSnapshot) {
-		// Log everything that's coming out of snapshot
-		console.log(childSnapshot.val().train);
-		console.log(childSnapshot.val().destination);
-		console.log(childSnapshot.val().firstTrain);
-		console.log(childSnapshot.val().frequency);
-		console.log(childSnapshot.val().dateAdded)
+  
 
-		// full list of items to the table
+    trainTracker.push({
+      name: name,
+      destination: dest,
+      first: firstArrival,
+      frequency: freq,
+      minutesTo: minutesTill,
+      next: nextTrain
+    });
+  }
+}
 
-	$('#results').append('<tr><td>' + childSnapshot.val().train + '</td><td>' + childSnapshot.val().destination + '</td><td>' + childSnapshot.val().firstTrain + '</td><td>' + childSnapshot.val().frequency + '</td><td>' + x + '</td><td>' + childSnapshot.val().minutesAway  + '</td>/tr>')
-		// Handle the errors
-	}, function(errorObject){
-		console.log("Errors handled: " + errorObject.code)
-	});
+trainTracker.on("child_added", function(snap){
+    $("#results").append("<tr><td>"+snap.val().name + "</td><td>"+snap.val().destination +"</td><td>" + snap.val().frequency + "</td><td>" + snap.val().next + "</td><td>" + snap.val().minutesTo + "</td></tr>");
+}, function (errorObject) {
+  console.log("The read failed: " + errorObject.code);
 });

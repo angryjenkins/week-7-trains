@@ -7,6 +7,7 @@
 	<!-- Latest compiled and minified CSS & JS -->
 	<script src="https://code.jquery.com/jquery.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	
     <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.12.0/moment.min.js"></script>
 </head>
@@ -50,20 +51,20 @@
 				<div class="panel-body">
 					<form>
 				  		<div class="form-group">
-					    	<label for="trainName">Train Name</label>
-					    	<input type="text" class="form-control" id="trainName" placeholder="Train Name">
+					    	<label for="name">Train Name</label>
+					    	<input type="text" class="form-control" id="name" placeholder="Train Name">
 					  	</div>
 					  	<div class="form-group">
 					    	<label for="destination">Destination</label>
 					    	<input type="text" class="form-control" id="destination" placeholder="Destination">
 					  	</div>
 					  	<div class="form-group">
-					    	<label for="firstTrain">First Train Time (HH:mm - military time)</label>
-					    	<input type="text" class="form-control" id="firstTrain" placeholder="Destination">
+					    	<label for="first">First Train Time (HH:mm - military time)</label>
+					    	<input type="text" class="form-control" id="first" placeholder="HH:mm">
 					  	</div>
 					  	<div class="form-group">
 					    	<label for="frequency">Frequency (mins)</label>
-					    	<input type="text" class="form-control" id="frequency" placeholder="Destination">
+					    	<input type="text" class="form-control" id="frequency" placeholder="X mins">
 					  	</div>
 					 	<button type="submit" class="btn btn-default" id="go">Submit</button>
 					</form>
