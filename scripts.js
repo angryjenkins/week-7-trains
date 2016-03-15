@@ -1,13 +1,8 @@
-var trainTracker = new Firebase("https://mattmartintrains.firebaseio.com");
+var trainTracker = new Firebase("https://mattmartintrains.firebaseIO.com");
 
 function pushData(){
-	var name = $("#name").val().trim();
-	var dest = $("#destination").val().trim();
-	var firstTime = $("#first").val().trim();
-	var freq = $("#frequency").val().trim();
-
-	var firstTimeConverted = moment(firstTime, "HH:mm");
-		console.log(moment.unix(firstTimeConverted));
+	
+	console.log(moment.unix(firstTimeConverted));
 
 	console.log(name);
 	console.log(dest);
@@ -17,13 +12,13 @@ function pushData(){
 	var diffTime = moment().diff(moment.unix(firstTimeConverted), "minutes");
 	console.log(diffTime);
 
-	var tRemainder = diffTime % freq;
-	console.log(tRemainder);
+	var rem = diffTime % freq;
+	console.log(rem);
 
-	var minutesTill = freq - tRemainder;
+	var minutesTill = freq - rem;
 	console.log(minutesTill);
 
-	var nextTrain = moment().add(minutesTill, "minutes")
+	var nextTrain = moment().add(minutesTill, "minutes");
 	console.log(moment(nextTrain).format("HH:mm"));
 
 
@@ -32,8 +27,8 @@ function pushData(){
 	  destination: dest,
 	  first: firstTime,
 	  frequency: freq,
-	  next: nextTrain,
-	  minutesTo: minutesTill
+	  // next: nextTrain,
+	  // minutesTo: minutesTill
 	})
 
 	$("#name").val("");
@@ -43,7 +38,7 @@ function pushData(){
 };
 
 trainTracker.on("child_added", function(snap){
-    $("#results").append("<tr><td>" + snap.val().name + "</td><td>" + snap.val().destination + "</td><td>" + snap.val().frequency + "</td><td>" + snap.val().next + "</td><td>" + snap.val().minutesTo + "</td></tr>");
+    $("#results").append("<tr><td>" + snap.val().name + "</td><td>" + snap.val().destination + "</td><td>" + snap.val().frequency + "</td><td>" + nextTrain + "</td><td>" + minutesTill + "</td></tr>");
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
 });
