@@ -25,7 +25,7 @@ function pushData(){
 		console.log("DIFFERENCE IN TIME: " + diffTime);
 
 	var rem = diffTime % freq;
-	console.log(rem);
+	console.log("REMAINDER: " + rem);
 
 	var minutesTill = freq - rem;
 	console.log(minutesTill);
@@ -55,8 +55,6 @@ function pushData(){
 };
 
 trainTracker.on("child_added", function(snap){
-
-
     $("#results").append("<tr><td>" + snap.val().name + "</td><td>" + snap.val().destination + "</td><td>" + snap.val().frequency + "</td><td>" + snap.val().nextTrain + "</td><td>" + snap.val().minutesTill + "</td></tr>");
 }, function (errorObject) {
   console.log("The read failed: " + errorObject.code);
